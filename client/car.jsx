@@ -2,18 +2,11 @@ const helper = require('./helper.js');
 
 const handleCar = e => {
     e.preventDefault();
-    helper.hideError();
 
-    const name = e.target.querySelector('#domoName').value;
-    const age = e.target.querySelector('#domoAge').value;
+    const skin = e.target.querySelector('[name="skins"]:checked').value;
     const _csrf = e.target.querySelector('#_csrf').value;
 
-    if(!name || !age){
-        helper.handleError('All fields are required!');
-        return false;
-    }
-
-    helper.sendPost(e.target.action, {name, age, _csrf}, loadDomosFromServer);
+    helper.sendCarPost(e.target.action, {skin, _csrf}, loadCarFromServer);
 
     return false;
 };
@@ -27,8 +20,10 @@ const CarForm = props => {
             method='POST'
             className='carForm'
         >
-            <label htmlFor='carSkin'>Select Skin: </label>
-            <input id='carSkin' type='radio' name='carSkin' />
+            <input id='yellowSkin' type='radio' name='skins' value='/assets/img/cardefault.png'/>
+            <label htmlFor='yellowSkin'>Yellow </label>
+            <input id='greenSkin' type='radio' name='skins' value='/assets/img/cargreen.png'/>
+            <label htmlFor='greenSkin'>Green </label>
             <input id='_csrf' type='hidden' name='_csrf' value={props.csrf} />
             <input className='makeCarSubmit' type='submit' value='Change Skin' />
         </form>
@@ -51,8 +46,12 @@ const loadCarFromServer = async () => {
     const response = await fetch('/getCar');
     const data = await response.json();
 
+    console.log(data.car);
+    console.log(data.car.skin);
+    console.log(data.car['skin']);
+
     ReactDOM.render(
-        <CarImage skin={data.skin} />,
+        <CarImage skin={data.car.skin} />,
         document.getElementById('carSection')
     );
 };

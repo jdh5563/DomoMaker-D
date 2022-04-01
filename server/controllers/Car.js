@@ -23,7 +23,7 @@ const getCar = (req, res) => CarModel.findByOwner(req.session.account._id, (err,
     return res.status(400).json({ error: 'An error occurred!' });
   }
 
-  return res.json({ car: docs });
+  return res.json({ car: docs[docs.length - 1] });
 });
 
 module.exports = {
