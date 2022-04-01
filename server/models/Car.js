@@ -24,7 +24,7 @@ CarSchema.statics.findByOwner = (ownerId, callback) => {
     owner: mongoose.Types.ObjectId(ownerId),
   };
 
-  return CarModel.find(search).select('name age').lean().exec(callback);
+  return CarModel.find(search).select('skin').lean().exec(callback);
 };
 
 CarModel = mongoose.model('Car', CarSchema);
