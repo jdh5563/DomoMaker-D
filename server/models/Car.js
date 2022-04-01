@@ -5,7 +5,7 @@ let CarModel = {};
 
 const CarSchema = new mongoose.Schema({
   skin: {
-    type: Image,
+    type: String,
   },
   owner: {
     type: mongoose.Schema.ObjectId,
