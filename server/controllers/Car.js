@@ -12,14 +12,14 @@ const makeCar = async (req, res) => {
     owner: req.session.account._id,
   };
 
-  const existingCar = await CarModel.findByOwner(carData.owner);
-  console.log(existingCar);
+  const existingCarList = await CarModel.findExistingCar(carData.owner);
+  const existingCar = existingCarList[existingCarList.length - 1];
 
   if(!existingCar) {
     car = new Car(carData);
   }
   else {
-    car = existingCar;
+    car = new Car(existingCar);
     car.skin = carData.skin;
   }
 
