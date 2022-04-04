@@ -1,4 +1,3 @@
-const res = require('express/lib/response');
 const models = require('../models');
 const CarModel = require('../models/Car');
 
@@ -13,11 +12,11 @@ const makeCar = async (req, res) => {
     owner: req.session.account._id,
   };
 
-  if(!car) car = new Car(carData);
+  if (!car) car = new Car(carData);
   else car.skin = carData.skin;
-  
+
   await car.save();
-  return res.status(201).json({ skin: car.skin, });
+  return res.status(201).json({ skin: car.skin });
 };
 
 const getCar = (req, res) => CarModel.findByOwner(req.session.account._id, (err, docs) => {
