@@ -3,6 +3,7 @@ const models = require('../models');
 const CarModel = require('../models/Car');
 
 const { Car } = models;
+let car;
 
 const carPage = (req, res) => res.render('car');
 
@@ -12,9 +13,11 @@ const makeCar = async (req, res) => {
     owner: req.session.account._id,
   };
 
-  const newCar = new Car(carData);
-  await newCar.save();
-  return res.status(201).json({ skin: newCar.skin, });
+  if(!car) car = new Car(carData);
+  else car.skin = carData.skin;
+  
+  await car.save();
+  return res.status(201).json({ skin: car.skin, });
 };
 
 const getCar = (req, res) => CarModel.findByOwner(req.session.account._id, (err, docs) => {
@@ -23,7 +26,7 @@ const getCar = (req, res) => CarModel.findByOwner(req.session.account._id, (err,
     return res.status(400).json({ error: 'An error occurred!' });
   }
 
-  return res.json({ car: docs[docs.length - 1] });
+  return res.json({ car: docs });
 });
 
 module.exports = {
