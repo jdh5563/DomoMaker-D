@@ -13,6 +13,7 @@ const makeCar = async (req, res) => {
   };
 
   const existingCar = await CarModel.findByOwner(carData.owner);
+  console.log(existingCar);
 
   if(!existingCar) {
     car = new Car(carData);
