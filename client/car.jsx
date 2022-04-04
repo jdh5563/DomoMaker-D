@@ -46,12 +46,8 @@ const loadCarFromServer = async () => {
     const response = await fetch('/getCar');
     const data = await response.json();
 
-    console.log(data.car);
-    console.log(data.car.skin);
-    console.log(data.car['skin']);
-
     ReactDOM.render(
-        <CarImage skin={data.car.skin} />,
+        <CarImage skin={data.car[data.car.length - 1].skin} />,
         document.getElementById('carSection')
     );
 };
