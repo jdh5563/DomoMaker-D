@@ -12,8 +12,15 @@ const makeCar = async (req, res) => {
     owner: req.session.account._id,
   };
 
-  if (!car) car = new Car(carData);
-  else car.skin = carData.skin;
+  const existingCar = await CarModel.findByOwner(carData.owner);
+
+  if(!existingCar) {
+    car = new Car(carData);
+  }
+  else {
+    car = existingCar;
+    car.skin = carData.skin;
+  }
 
   await car.save();
   return res.status(201).json({ skin: car.skin });
